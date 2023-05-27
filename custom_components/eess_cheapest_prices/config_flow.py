@@ -1,4 +1,4 @@
-"""Config flow for EESS prices."""
+"""Adds flow for eess_cheapest_prices."""
 from __future__ import annotations
 
 import voluptuous as vol
@@ -28,10 +28,14 @@ DATA_SCHEMA = vol.Schema(
 
 
 class EESSPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Config flow for Blueprint."""
+
     VERSION = 1
+
     municipalities = {}
 
-    async def async_step_user(self, user_input):
+    async def async_step_user(self, user_input)-> config_entries.FlowResult:
+        """Handle a flow initialized by the user."""
         if user_input is not None:
             municipio_id = user_input.get(CONF_MUNICIPIO_ID)
             municipio = self.municipalities[municipio_id]
