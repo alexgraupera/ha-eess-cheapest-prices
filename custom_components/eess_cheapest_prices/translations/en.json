@@ -1,0 +1,21 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "This location and fuel type is already configured"
+    },
+    "error": {
+      "already_configured": "This location and fuel type is already configured"
+    },
+    "step": {
+      "user": {
+        "title": "New location",
+        "description": "Add new location",
+        "data": {
+          "municipio": "Municipality location",
+          "IDMunicipio": "Municipality ID location",
+          "municipio_gas_type": "Combustible or gas type"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Aquesta localitat i tipus de combustible ja ha estat configurada"
+    },
+    "error": {
+      "already_configured": "Aquesta localitat i tipus de combustible ja ha estat configurada"
+    },
+    "step": {
+      "user": {
+        "title": "Nova localitat",
+        "description": "Afegeix una localitat",
+        "data": {
+          "municipio": "Localitat",
+          "IDMunicipio": "ID Localitat",
+          "municipio_gas_type": "Tipus de combustible"
+        }
+      }
+    }
+  }
+}
