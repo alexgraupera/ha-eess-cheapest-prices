@@ -1,6 +1,6 @@
 """Constant values for ees_prices."""
 
-DOMAIN = "eess_prices"
+DOMAIN = "eess_cheapest_prices"
 
 CONF_MUNICIPIO = "municipio"
 CONF_MUNICIPIO_ID = "municipio_id"

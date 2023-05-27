@@ -1,4 +1,4 @@
-"""The ess_prices integration for get the cheapest fuel price given a location."""
+"""The eess_cheapest_prices integration for get the cheapest fuel price given a location."""
 from __future__ import annotations
 
 from datetime import datetime, timedelta
@@ -30,7 +30,7 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up cheapest fuel price from a config entry."""
     hass.data.setdefault(DOMAIN, {})
-    coordinator = EESSpricesCoordinator(hass, entry)
+    coordinator = EESSCheapestPricesCoordinator(hass, entry)
     hass.data[DOMAIN][entry.entry_id] = coordinator
     await coordinator.async_config_entry_first_refresh()
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
@@ -52,8 +52,8 @@ async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     await async_unload_entry(hass, entry)
     await async_setup_entry(hass, entry)
 
-class EESSpricesCoordinator(DataUpdateCoordinator):
-    """Coordinator for query and fetch the eess_prices api."""
+class EESSCheapestPricesCoordinator(DataUpdateCoordinator):
+    """Coordinator for query and fetch the eess_cheapest_prices api."""
     def __init__(
         self,
         hass: HomeAssistant,

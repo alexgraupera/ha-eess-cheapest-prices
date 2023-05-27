@@ -19,7 +19,7 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from . import EESSpricesCoordinator
+from . import EESSCheapestPricesCoordinator
 from .const import (
     CONF_FUEL_TYPE,
     CONF_MUNICIPIO,
@@ -55,17 +55,17 @@ async def async_setup_entry(
 ) -> None:
     """Set up the eess_prices sensor from config entry."""
     coordinator = hass.data[DOMAIN][config.entry_id]
-    sensor = EESSPriceSensor(
+    sensor = EESSCheapestPriceSensor(
         coordinator,
         SENSOR_TYPES[0])
     async_add_entities([sensor])
 
-class EESSPriceSensor(CoordinatorEntity[EESSpricesCoordinator], SensorEntity):
+class EESSCheapestPriceSensor(CoordinatorEntity[EESSCheapestPricesCoordinator], SensorEntity):
     """Class to hold the cheapest price of fuel given a location as a sensor."""
 
     def __init__(
         self,
-        coordinator: EESSpricesCoordinator,
+        coordinator: EESSCheapestPricesCoordinator,
         description: SensorEntityDescription
     ) -> None:
         """Initialize eess_prices sensor."""
