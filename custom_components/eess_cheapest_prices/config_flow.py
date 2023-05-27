@@ -69,6 +69,7 @@ class EESSPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 async def async_get_municipios(hass: core.HomeAssistant):
+    """Return all possible locations (municipalities)"""
     url = CONF_MUNICIPIOS_URL_LIST
     async with async_get_clientsession(hass) as session:
         async with session.get(url) as response:
