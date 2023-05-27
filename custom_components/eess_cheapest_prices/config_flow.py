@@ -17,15 +17,17 @@ from .const import (
 )
 
 DATA_SCHEMA = vol.Schema(
-    { 
-        vol.Required(CONF_MUNICIPIO_ID, default=1): vol.All(vol.Coerce(int), vol.Range(min=1)),
+    {
+        vol.Required(CONF_MUNICIPIO_ID, default=1): vol.All(
+            vol.Coerce(int), vol.Range(min=1)
+        ),
         vol.Required(CONF_MUNICIPIO, default=""): vol.All(str, vol.Length(min=1)),
-        vol.Required(CONF_MUNICIPIO_FUEL_TYPE): vol.In(CONF_FUEL_TYPE)
+        vol.Required(CONF_MUNICIPIO_FUEL_TYPE): vol.In(CONF_FUEL_TYPE),
     }
 )
 
-class EESSPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
+class EESSPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
     municipalities = {}
 
@@ -41,22 +43,32 @@ class EESSPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             await self.async_set_unique_id(unique_id_key)
             self._abort_if_unique_id_configured()
             user_input[CONF_MUNICIPIO] = municipio
-            user_input[CONF_MUNICIPIO_FUEL_TYPE_DESCRIPTION] = municipio_fuel_type_description
+            user_input[
+                CONF_MUNICIPIO_FUEL_TYPE_DESCRIPTION
+            ] = municipio_fuel_type_description
 
             return self.async_create_entry(title=sensor_title, data=user_input)
 
         self.municipalities = await async_get_municipios(self.hass)
-        self.municipalities = dict(sorted(self.municipalities.items(), key=lambda x: x[1]))
-        return self.async_show_form(step_id="user", data_schema=vol.Schema(
-                    {
-                        vol.Required(CONF_MUNICIPIO_ID): vol.In(self.municipalities),
-                        vol.Required(CONF_MUNICIPIO_FUEL_TYPE): vol.In(CONF_FUEL_TYPE)
-                    }
-                ))
+        self.municipalities = dict(
+            sorted(self.municipalities.items(), key=lambda x: x[1])
+        )
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_MUNICIPIO_ID): vol.In(self.municipalities),
+                    vol.Required(CONF_MUNICIPIO_FUEL_TYPE): vol.In(CONF_FUEL_TYPE),
+                }
+            ),
+        )
+
 
 async def async_get_municipios(hass: core.HomeAssistant):
     url = CONF_MUNICIPIOS_URL_LIST
     async with async_get_clientsession(hass) as session:
         async with session.get(url) as response:
             data = await response.json()
-            return {municipio["IDMunicipio"]: municipio["Municipio"] for municipio in data}
+            return {
+                municipio["IDMunicipio"]: municipio["Municipio"] for municipio in data
+            }

@@ -27,6 +27,7 @@ from .const import (
 PLATFORMS: list[str] = ["sensor"]
 _LOGGER = logging.getLogger(__name__)
 
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up cheapest fuel price from a config entry."""
     hass.data.setdefault(DOMAIN, {})
@@ -37,9 +38,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
 
+
 async def options_update_listener(hass: HomeAssistant, entry: ConfigEntry):
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
+
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
@@ -47,13 +50,16 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
         hass.data[DOMAIN].pop(entry.entry_id)
     return unload_ok
 
+
 async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Reload config entry."""
     await async_unload_entry(hass, entry)
     await async_setup_entry(hass, entry)
 
+
 class EESSCheapestPricesCoordinator(DataUpdateCoordinator):
     """Coordinator for query and fetch the eess_cheapest_prices api."""
+
     def __init__(
         self,
         hass: HomeAssistant,
@@ -70,7 +76,7 @@ class EESSCheapestPricesCoordinator(DataUpdateCoordinator):
         self._municipio = entry.data[CONF_MUNICIPIO]
         self._municipio_id = entry.data[CONF_MUNICIPIO_ID]
         self._municipio_fuel_type = entry.data[CONF_MUNICIPIO_FUEL_TYPE]
-        
+
     async def _async_update_data(self) -> dict:
         url = f"{CONF_MUNICIPIO_FILTER_URL}{self._municipio_id}"
         async with self._session.get(url) as response:
@@ -82,13 +88,23 @@ class EESSCheapestPricesCoordinator(DataUpdateCoordinator):
                 price = service_station[fuel_type]
                 if price:
                     name = service_station[KEY_STATION_NAME]
-                    coordinates = (float(service_station[KEY_STATION_LATITUDE].replace(',', '.')), float(service_station[KEY_STATION_LONGITUDE].replace(',', '.')))
+                    coordinates = (
+                        float(service_station[KEY_STATION_LATITUDE].replace(",", ".")),
+                        float(service_station[KEY_STATION_LONGITUDE].replace(",", ".")),
+                    )
                     opening_hours = service_station[KEY_STATION_OPENING_HOURS]
-                    price = float(price.replace(',', '.'))
+                    price = float(price.replace(",", "."))
                     address = service_station[KEY_STATION_ADDRESS]
-                    service_stations[name] = {'coordinates': coordinates, 'address': address, 'opening_hours': opening_hours, 'price': price}
+                    service_stations[name] = {
+                        "coordinates": coordinates,
+                        "address": address,
+                        "opening_hours": opening_hours,
+                        "price": price,
+                    }
         if service_stations:
-            service_station = min(service_stations, key=lambda x: service_stations[x]['price'])
+            service_station = min(
+                service_stations, key=lambda x: service_stations[x]["price"]
+            )
             return {
                 "state": service_stations[service_station]["price"],
                 "attributes": {
@@ -97,7 +113,7 @@ class EESSCheapestPricesCoordinator(DataUpdateCoordinator):
                     "name": service_station,
                     "address": service_stations[service_station]["address"],
                     "opening_hours": service_stations[service_station]["opening_hours"],
-                    "last_update": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                }
+                    "last_update": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                },
             }
         return None
