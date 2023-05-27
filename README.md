@@ -1,47 +1,55 @@
-# Notice
+[![hacs][hacsbadge]][hacs]
+![License](https://img.shields.io/github/license/alexgraupera/ha-eess-cheapest-prices.svg?style=for-the-badge)
+![Release](https://img.shields.io/github/downloads/alexgraupera/ha-eess-cheapest-prices/latest/total?style=for-the-badge&color=f55041)
 
-The component and platforms in this repository are not meant to be used by a
-user, but as a "blueprint" that custom component developers can build
-upon, to make more awesome stuff.
+_Integration created with templates [integration_blueprint](https://github.com/ludeeus/integration_blueprint)._
 
-HAVE FUN! 😎
+# EESS Cheapest prices
 
-## Why?
+This integration allow to create sensors for a given location (spain only) and show the best price for a fuel type and the station service details.
 
-This is simple, by having custom_components look (README + structure) the same
-it is easier for developers to help each other and for users to start using them.
+The locations (municipalities) and service stations are collected through the public rest service: https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/help
 
-If you are a developer and you want to add things to this "blueprint" that you think more
-developers will have use for, please open a PR to add it :)
+You can create multiple sensors for (by the moment) three fuel types (95, 98 and diesel) in a given location.
 
-## What?
+> ℹ️: This integration has been created for learn how to build a custom Home Assistant integration, to learn Python and its workflows, and also for fun.
 
-This repository contains multiple files, here is a overview:
+# Installation
 
-File | Purpose | Documentation
--- | -- | --
-`.devcontainer.json` | Used for development/testing with Visual Studio Code. | [Documentation](https://code.visualstudio.com/docs/remote/containers)
-`.github/ISSUE_TEMPLATE/*.yml` | Templates for the issue tracker | [Documentation](https://help.github.com/en/github/building-a-strong-community/configuring-issue-templates-for-your-repository)
-`.vscode/tasks.json` | Tasks for the devcontainer. | [Documentation](https://code.visualstudio.com/docs/editor/tasks)
-`custom_components/integration_blueprint/*` | Integration files, this is where everything happens. | [Documentation](https://developers.home-assistant.io/docs/creating_component_index)
-`CONTRIBUTING.md` | Guidelines on how to contribute. | [Documentation](https://help.github.com/en/github/building-a-strong-community/setting-guidelines-for-repository-contributors)
-`LICENSE` | The license file for the project. | [Documentation](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/licensing-a-repository)
-`README.md` | The file you are reading now, should contain info about the integration, installation and configuration instructions. | [Documentation](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax)
-`requirements.txt` | Python packages used for development/lint/testing this integration. | [Documentation](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
+## Using [HACS](https://github.com/dolezsa/thermal_comfort#:~:text=Using-,HACS,-(recommended)) (Recomended)
 
-## How?
+This integration can be installed using HACS.
 
-1. Create a new repository in GitHub, using this repository as a template by clicking the "Use this template" button in the GitHub UI.
-1. Open your new repository in Visual Studio Code devcontainer (Preferably with the "`Dev Containers: Clone Repository in Named Container Volume...`" option).
-1. Rename all instances of the `integration_blueprint` to `custom_components/<your_integration_domain>` (e.g. `custom_components/awesome_integration`).
-1. Rename all instances of the `Integration Blueprint` to `<Your Integration Name>` (e.g. `Awesome Integration`).
-1. Run the `scripts/develop` to start HA and test out your new integration.
+## Manual
 
-## Next steps
+- Using git:
 
-These are some next steps you may want to look into:
-- Add tests to your integration, [`pytest-homeassistant-custom-component`](https://github.com/MatthewFlamm/pytest-homeassistant-custom-component) can help you get started.
-- Add brand images (logo/icon) to https://github.com/home-assistant/brands.
-- Create your first release.
-- Share your integration on the [Home Assistant Forum](https://community.home-assistant.io/).
-- Submit your integration to the [HACS](https://hacs.xyz/docs/publish/start).
+```
+git clone https://github.com/alexgraupera/ha-eess-cheapest-prices.git
+cd thermal_comfort
+# if you want a specific version checkout its tag
+# e.g. git checkout 1.0.0
+
+# replace $hacs_config_folder with your home assistant config folder path
+cp -r custom_components $hacs_config_folder
+````
+
+- Manual: Download this repo, extract the `eess_cheapest_prices` into the custom_components folder of your HA installation
+
+After doing this, remember that you need to restart HA before you can use it.
+
+# Adding new sensors
+
+Go to Configuration > Devices & Services > + Add integration.
+
+Search by name "Cheapest fuel prices by location" and select.
+
+Then select a location in drop down selector, select the fuel type and press "send".
+
+If everything went well, the sensor have been created.
+
+
+[releases-shield]: https://img.shields.io/github/downloads/alexgraupera/ha-eess-cheapest-prices/latest/total
+[releases]: https://github.com/alexgraupera/ha-eess-cheapest-prices/releases
+[hacs]: https://github.com/hacs/integration
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
