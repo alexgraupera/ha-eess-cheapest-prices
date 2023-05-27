@@ -1,12 +1,12 @@
 {
+  "domain": "eess_cheapest_prices",
+  "name": "Cheapest fuel prices by location",
   "codeowners": [
     "@alexgraupera"
   ],
   "config_flow": true,
-  "domain": "eess_cheapest_prices",
   "documentation": "https://github.com/alexgraupera/eess_prices",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/alexgraupera/ha-eess-cheapest-prices/issues",
-  "name": "Cheapest fuel prices by location",
   "version": "1.0.0"
 }
