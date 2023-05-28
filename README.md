@@ -26,7 +26,7 @@ This integration can be installed using HACS.
 
 ```
 git clone https://github.com/alexgraupera/ha-eess-cheapest-prices.git
-cd thermal_comfort
+cd eess_cheapest_prices
 # if you want a specific version checkout its tag
 # e.g. git checkout 1.0.0
 
