@@ -34,7 +34,7 @@ class EESSPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     municipalities = {}
 
-    async def async_step_user(self, user_input)-> config_entries.FlowResult:
+    async def async_step_user(self, user_input) -> config_entries.FlowResult:
         """Handle a flow initialized by the user."""
         if user_input is not None:
             municipio_id = user_input.get(CONF_MUNICIPIO_ID)
@@ -71,9 +71,6 @@ class EESSPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 async def async_get_municipios(hass: core.HomeAssistant):
     """Return all possible locations (municipalities)."""
     url = CONF_MUNICIPIOS_URL_LIST
-    async with async_get_clientsession(hass) as session:
-        async with session.get(url) as response:
-            data = await response.json()
-            return {
-                municipio["IDMunicipio"]: municipio["Municipio"] for municipio in data
-            }
+    async with async_get_clientsession(hass) as session, session.get(url) as response:
+        data = await response.json()
+        return {municipio["IDMunicipio"]: municipio["Municipio"] for municipio in data}
