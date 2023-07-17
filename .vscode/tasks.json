@@ -6,6 +6,12 @@
             "type": "shell",
             "command": "scripts/develop",
             "problemMatcher": []
+        },
+        {
+            "label": "Setup repository requirements",
+            "type": "shell",
+            "command": "scripts/setup",
+            "problemMatcher": []
         }
     ]
 }
